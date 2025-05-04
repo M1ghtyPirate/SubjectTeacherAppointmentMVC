@@ -1,0 +1,27 @@
+﻿@{
+    var subject = Model.Item1;
+    var subTitle = "Преподаватели предмета";
+    ViewData["Title"] = $"{subject.Name} - {subTitle}";
+    Func<bool> isUserAuthorized = () => Context.User.FindFirstValue(ClaimTypes.Role) == "Admin";
+}
+@model Tuple<Subject, IEnumerable<SubjectTeacher>>
+
+<div class="page-content-center page-content-display">
+    <h1><a asp-action="Subjects">@subject.Name</a> - @subTitle</h1>
+    <table class="table">
+        <tr>
+            <th >Преподаватель</th>
+            <th >Часов в неделю</th>
+        </tr>
+        @foreach (var subjectTeacher in Model.Item2)
+        {
+            <tr>
+                <td><a asp-action="Teacher" asp-route-id=@subjectTeacher.Teacher.TeacherID>@(Formatting.getTeacherDisplayString(subjectTeacher.Teacher))</a></td>
+                <td>@subjectTeacher.HoursPerWeek</td>
+            </tr>
+        }
+    </table>
+    <div>
+        <a asp-action="EditSubjectTeachers" asp-route-id=@subject.SubjectID><input disabled="@(!isUserAuthorized())" type="button" value="Изменить" /></a>
+    </div>
+</div>

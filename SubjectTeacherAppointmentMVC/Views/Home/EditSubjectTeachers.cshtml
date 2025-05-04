@@ -1,0 +1,96 @@
+﻿@{
+    var subject = Model.Item1;
+    var subTitle = "Преподаватели предмета";
+    ViewData["Title"] = $"{subject.Name} - {subTitle}";
+    var p0 = "N0";
+    Func<bool> isUserAuthorized = () => Context.User.FindFirstValue(ClaimTypes.Role) == "Admin";
+
+    var subjectTeachersCount = 0;
+
+    async Task generateTeachersDropdownOptions(IEnumerable<Teacher> teachers, Teacher selectedTeacher) {
+        <option disabled selected="@(selectedTeacher == null)">--Выберете преподавателя--</option>
+        foreach(var teacher in teachers) {
+            <option value="@teacher.TeacherID" selected="@(selectedTeacher?.TeacherID == @teacher.TeacherID)">@(Formatting.getTeacherDisplayString(teacher))</option>
+        }
+    }
+
+    async Task generateSubjectTeacherRow(SubjectTeacher subjectTeacher, string rowId = null, bool isHidden = false)
+    {
+        <tbody id="@(rowId ?? "")" hidden="@isHidden">
+            <tr>
+                <td>
+                    <input type="text" name="SubjectTeacher[@(subjectTeachersCount)].SubjectTeacherID" value="@subjectTeacher?.SubjectTeacherID" hidden="True" />
+                    <input type="text" name="SubjectTeacher[@(subjectTeachersCount)].SubjectID" value="@subject.SubjectID" hidden="True" />
+                    <select name="SubjectTeacher[@(subjectTeachersCount)].TeacherID">
+                        @(generateTeachersDropdownOptions(Model.Item3, subjectTeacher?.Teacher))
+                    </select>
+                </td>
+                <td>
+                    <input type="number" name="SubjectTeacher[@(subjectTeachersCount++)].HoursPerWeek" step="1" min="1" max="40" pattern="\d*" value="@Formatting.toFixed(subjectTeacher?.HoursPerWeek, p0)" />
+                </td>
+                <td>
+                    <input disabled="@(!isUserAuthorized())" type="button" class="input-delete" onclick="deleteSubjectTeacher_Click(event)" value="Удалить" />
+                </td>
+            </tr>
+        </tbody>
+    }
+}
+@model Tuple<Subject, IEnumerable<SubjectTeacher>, IEnumerable<Teacher>>
+
+<div class="page-content-center page-content-display">
+    <h1><a asp-action="Subjects">@subject.Name</a> - @subTitle</h1>
+    <form onsubmit="return isFormValid()" asp-action="EditSubjectTeachers" asp-controller="home">
+        <table class="table">
+            <tr>
+                <th>Преподаватель</th>
+                <th>Часов в неделю</th>
+                <th>Редактирование</th>
+            </tr>
+            @foreach (var subjectTeacher in Model.Item2)
+            {
+                generateSubjectTeacherRow(subjectTeacher);
+            }
+            @{generateSubjectTeacherRow(null, "newSubjectTeacherBlock", true);}
+            <tr><td colspan="3"><input type="button" onclick="addSubjectTeacher_Click()" value="Добавить загрузку" /></td></tr>
+        </table>
+        <div>
+            <input type="submit" value="Внести изменения" />
+            <input type="button" value="Отмена" onclick="history.back()" />
+        </div>
+    </form>
+</div>
+<script>
+    /** Проверка уникальности выбора преподавателей. */
+    function isFormValid() {
+        let selectTags = Array.from(document.getElementsByTagName("select"));
+        //let selectedTeacherTags = selectTags.filter(s => s && s.value != "--Выберете преподавателя--");
+        let selectedTeacherIds = selectTags.filter(s => s.value != "--Выберете преподавателя--")?.map(s => s.value);
+        let uniqueIds = new Set(selectedTeacherIds);
+        if (selectedTeacherIds.length != uniqueIds.size) {
+            alert("Выбраны повторяющиеся записи для преподавателей.");
+            return false;
+        }
+        return true;
+    }
+
+    /** Добавление преподавателя в таблицу. */
+    function addSubjectTeacher_Click() {
+        let newSubjectTeacherBlock = document.getElementById("newSubjectTeacherBlock");
+        let newSubjectTeacherBlockClone = newSubjectTeacherBlock.cloneNode(true);
+        incrementTagName(newSubjectTeacherBlockClone, 1);
+        newSubjectTeacherBlock.after(newSubjectTeacherBlockClone);
+        newSubjectTeacherBlock.id = "";
+        newSubjectTeacherBlock.hidden = false;
+    }
+
+    /** Удаление преподавателя из таблицы. */
+    function deleteSubjectTeacher_Click(e) {
+        let tableBlocks = Array.from(document.getElementsByTagName("tbody"));
+        let subjectTeacherBlock = e.target.parentNode.parentNode.parentNode;
+        let currentBlockIndex = tableBlocks.indexOf(subjectTeacherBlock);
+        for (let i = currentBlockIndex + 1; i < tableBlocks.length; i++) {
+            incrementTagName(tableBlocks[i], -1);
+        }
+        subjectTeacherBlock.remove();
+    }
+</script>

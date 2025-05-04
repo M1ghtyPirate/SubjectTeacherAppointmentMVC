@@ -1,0 +1,32 @@
+﻿@{
+    var userCount = 0;
+    ViewData["Title"] = "Список пользователей";
+    var p0 = "N0";
+    var p1 = "N1";
+}
+@model List<User>
+
+<div class="page-content-center page-content-display">
+    <h1>@ViewData["Title"]</h1>
+    <form asp-action="Users" asp-controller="Home">
+        <table class="table">
+            <tr>
+                <th >Логин</th>
+                <th >Является администратором</th>
+            </tr>
+            @foreach (var user in Model.OrderBy(u => u.Login))
+            {
+                <tr class="@(user.UserID + "" == Context.User.FindFirstValue(ClaimTypes.NameIdentifier) ? "table-item-highlighted" : "")">
+                    <td>
+                        <input type="text" name="Users[@(userCount)].UserID" value="@user.UserID" hidden="True" />
+                        @user.Login
+                    </td>
+                    <td><input type="checkbox" name="Users[@(userCount++)].IsAdmin" value="true" checked="@user.IsAdmin" disabled="@(user.Login == "admin" || user.UserID + "" == Context.User.FindFirstValue(ClaimTypes.NameIdentifier))" /></td>
+                </tr>
+            }
+        </table>
+        <div>
+            <input type="submit" value="Внести изменения" />
+        </div>
+    </form>
+</div>

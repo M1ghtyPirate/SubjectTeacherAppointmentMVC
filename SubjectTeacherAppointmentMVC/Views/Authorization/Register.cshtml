@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Регистрация";
+}
+@model User
+
+<div class="page-content-center page-content-auth">
+    <h2>Введите данные для регистрации</h2>
+    <form asp-action="register" asp-controller="authorization" onsubmit="return comparePasswords()">
+        <div>
+            <label asp-for="Login">Логин*</label>
+            <input id="Login" type="text" asp-for="Login" required value="@Model?.Login" onblur="trimLogin()"/>
+            <div class="warning" hidden="@(!(Model != null && Model.Login == null))">Логин занят.</div>
+            <label asp-for="Password">Пароль*</label>
+            <input id="Password" type="password" asp-for="Password" required minlength="6" value="@Model?.Password" />
+            <label for="PasswordConfirmation">Повторите пароль*</label>
+            <input id="PasswordConfirmation" type="password" required minlength="6" value="@Model?.Password" />
+            <div class="warning" id="PasswordWarning" hidden="true">Пароли не совпадают.</div>
+        </div>
+        <div>
+            <input type="submit" value="Зарегистрироваться" />
+            <h5>* - обязательные поля</h5>
+        </div>
+    </form>
+</div>
+<script>
+    function trimLogin() 
+    {
+        var login = document.getElementById("Login");
+        login.value = login.value?.trim();
+    }
+
+    function comparePasswords()
+    {
+        var password = document.getElementById("Password");
+        var passwordConfirmation = document.getElementById("PasswordConfirmation");
+        if(password.value != passwordConfirmation.value)
+        {
+            document.getElementById("PasswordWarning").hidden = false;
+            return false;
+        }
+        return true;
+    }
+</script>

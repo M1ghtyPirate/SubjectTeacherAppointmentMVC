@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = Model == null ? "Добавление предмета" : "Изменение предмета";
+}
+@model Subject
+<div class="page-content-center page-content-auth">
+    <h1>@ViewData["Title"]</h1>
+    <form asp-action="addsubject" asp-controller="home">
+        <div>
+            <input type="text" asp-for="SubjectID" value="@Model?.SubjectID" hidden ="True"/>
+            <label asp-for="Name">Имя</label>
+            <input type="text" asp-for="Name" required value="@Model?.Name" />
+        </div>
+        <div>
+            <input type="submit" value="@(Model == null ? "Добавить" : "Внести изменения")" />
+            <input type="button" value="Отмена" onclick="history.back()" />
+        </div>
+    </form>
+</div>

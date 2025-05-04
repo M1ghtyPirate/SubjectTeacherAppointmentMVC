@@ -1,0 +1,34 @@
+﻿@{
+    var displayString = Formatting.getTeacherDisplayString(Model);
+    ViewData["Title"] = displayString;
+    Func<Teacher, bool> isUserAuthorized = (f) => Context.User.FindFirstValue(ClaimTypes.Role) == "Admin";
+    string getBase64ImageSrc()
+    {
+        if (Model?.Photo == null)
+        {
+            return null;
+        }
+        return $"data:image/jpeg;base64,{Convert.ToBase64String(Model.Photo)}";
+    }
+}
+@model Teacher
+
+<div class="page-content-center page-content-display">
+    <div>
+        <img src="@getBase64ImageSrc()" />
+    </div>
+    <div>
+        <h1>@ViewData["Title"]</h1>
+        <div>Пол:</div>
+        <div>@Model.Sex</div>
+        <div>Дата рождения:</div>
+        <div>@Model.Birthday?.ToString("dd.MM.yyyy")</div>
+        <div>Примечание:</div>
+        <div>@Model.Notes</div>
+    </div>
+    <div>
+        <a asp-action="EditTeacher" asp-route-id=@Model.TeacherID><input disabled="@(!isUserAuthorized(Model))" type="button" value="Изменить" /></a>
+        <br />
+        <a asp-action="RemoveTeacher" onclick="ActionConfirmation('Удалить преподавателя: @Model.LastName?')" asp-route-id=@Model.TeacherID><input disabled="@(!isUserAuthorized(Model))" type="button" class="input-delete" value="Удалить" /></a>
+    </div>
+</div>

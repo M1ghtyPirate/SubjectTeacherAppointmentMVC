@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = Model == null ? "Добавление преподавателя" : "Изменение преподавателя";
+    var FemaleStr = "Женский";
+    var MaleStr = "Мужской";
+    string getBase64ImageSrc() {
+        if (Model?.Photo == null) {
+            return null;
+        }
+        return $"data:image/jpeg;base64,{Convert.ToBase64String(Model.Photo)}";
+    }
+}
+@model Teacher
+<div class="page-content-center page-content-auth">
+    <h1>@ViewData["Title"]</h1>
+    <form asp-action="AddTeacher" asp-controller="home" enctype="multipart/form-data">
+        <div>
+            <input type="text" asp-for="TeacherID" value="@Model?.TeacherID" hidden ="True"/>
+            <label asp-for="LastName">Фамилия</label>
+            <input type="text" asp-for="LastName" required value="@Model?.LastName" />
+            <label asp-for="Name">Имя</label>
+            <input type="text" asp-for="Name" required value="@Model?.Name" />
+            <label asp-for="Surname">Отчество</label>
+            <input type="text" asp-for="Surname" value="@Model?.Surname" />
+            <label asp-for="Birthday">Дата рождения</label>
+            <input type="date" asp-for="Birthday" value="@Model?.Birthday" />
+            <label asp-for="Sex">Пол</label>
+            <select required name="Sex">
+                <option disabled selected="@(Model?.Sex == null)">--Выберете пол--</option>
+                <option value="@FemaleStr" selected="@(Model?.Sex == FemaleStr)">@FemaleStr</option>
+                <option value="@MaleStr" selected="@(Model?.Sex == FemaleStr)">@MaleStr</option>
+            </select>
+            <label asp-for="Photo">Фото</label>
+            <img src="@getBase64ImageSrc()" />
+            <input type="file" accept=".jpg, .jpeg|image/*" asp-for="PhotoFormFile" value="@Model?.PhotoFormFile" />
+            <label asp-for="Notes">Примечание</label>
+            <input type="text" asp-for="Notes" value="@Model?.Notes" />
+        </div>
+        <div>
+            <input type="submit" value="@(Model == null ? "Добавить" : "Внести изменения")" />
+            <input type="button" value="Отмена" onclick="history.back()" />
+        </div>
+    </form>
+</div>
