@@ -1,0 +1,9 @@
+services:
+  web:
+    build: ./SubjectTeacherAppointmentMVC
+    ports:
+        - 8080:8080
+  db:
+    build: ./SubjectTeacherAppointmentDB
+    ports:
+        - 1433:1433

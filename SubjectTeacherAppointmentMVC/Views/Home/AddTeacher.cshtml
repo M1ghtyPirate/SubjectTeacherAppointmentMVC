@@ -20,7 +20,7 @@
             <label asp-for="Surname">Отчество</label>
             <input type="text" asp-for="Surname" value="@Model?.Surname" />
             <label asp-for="Birthday">Дата рождения</label>
-            <input type="date" asp-for="Birthday" value="@Model?.Birthday" />
+            <input type="date" asp-for="Birthday" value="@Model?.Birthday?.ToString("yyyy-MM-dd")" />
             <label asp-for="Sex">Пол</label>
             <br/>
             <select required name="Sex">
