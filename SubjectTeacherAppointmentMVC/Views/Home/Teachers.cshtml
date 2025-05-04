@@ -26,6 +26,6 @@
         }
     </table>
     <div>
-        <a asp-action="AddTeacher"><input type="button" value="Добавить нового преподавателя" /></a>
+        <a asp-action="AddTeacher"><input type="button" disabled="@(!isUserAuthorized(null))" value="Добавить нового преподавателя" /></a>
     </div>
 </div>

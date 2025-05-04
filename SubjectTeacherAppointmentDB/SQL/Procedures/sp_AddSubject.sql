@@ -10,7 +10,7 @@ BEGIN
 	OUTPUT inserted.[SubjectID] INTO @SubjectIDs
 	VALUES (@SubjectName)
 
-	SELECT @ForestryID = [ID] FROM @ForestryIDs
+	SELECT @@SubjectID = [ID] FROM @SubjectIDs
 END
 
 --DROP PROCEDURE [dbo].[sp_AddSubject]

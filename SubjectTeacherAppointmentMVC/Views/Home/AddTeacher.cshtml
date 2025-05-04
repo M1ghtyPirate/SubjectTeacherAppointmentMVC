@@ -1,19 +1,17 @@
 ﻿@{
-    ViewData["Title"] = Model == null ? "Добавление преподавателя" : "Изменение преподавателя";
+    ViewData["Title"] = Model == null ? "Добавление преподавателя" : "Изменение данных преподавателя";
     var FemaleStr = "Женский";
     var MaleStr = "Мужской";
-    string getBase64ImageSrc() {
-        if (Model?.Photo == null) {
-            return null;
-        }
-        return $"data:image/jpeg;base64,{Convert.ToBase64String(Model.Photo)}";
-    }
 }
 @model Teacher
 <div class="page-content-center page-content-auth">
     <h1>@ViewData["Title"]</h1>
     <form asp-action="AddTeacher" asp-controller="home" enctype="multipart/form-data">
-        <div>
+        <div class="teacher-avatar">
+            <img id="photo" alt="Фото" src="@Formatting.getAvatarImageSrc(Model?.Photo)" />
+        </div>
+        <div class="teacher-info">
+            <input type="file" accept=".jpg, .jpeg, .png, .bmp|image/*" asp-for="PhotoFormFile" onchange="selectPhoto_Change(event)" value="@Model?.PhotoFormFile" />
             <input type="text" asp-for="TeacherID" value="@Model?.TeacherID" hidden ="True"/>
             <label asp-for="LastName">Фамилия</label>
             <input type="text" asp-for="LastName" required value="@Model?.LastName" />
@@ -24,14 +22,13 @@
             <label asp-for="Birthday">Дата рождения</label>
             <input type="date" asp-for="Birthday" value="@Model?.Birthday" />
             <label asp-for="Sex">Пол</label>
+            <br/>
             <select required name="Sex">
                 <option disabled selected="@(Model?.Sex == null)">--Выберете пол--</option>
                 <option value="@FemaleStr" selected="@(Model?.Sex == FemaleStr)">@FemaleStr</option>
                 <option value="@MaleStr" selected="@(Model?.Sex == FemaleStr)">@MaleStr</option>
             </select>
-            <label asp-for="Photo">Фото</label>
-            <img src="@getBase64ImageSrc()" />
-            <input type="file" accept=".jpg, .jpeg|image/*" asp-for="PhotoFormFile" value="@Model?.PhotoFormFile" />
+            <br/>
             <label asp-for="Notes">Примечание</label>
             <input type="text" asp-for="Notes" value="@Model?.Notes" />
         </div>
@@ -41,3 +38,9 @@
         </div>
     </form>
 </div>
+<script>
+    function selectPhoto_Change(event) {
+        let photoElement = document.getElementById("photo");
+        photoElement.src = "";
+    }
+</script>

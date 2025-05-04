@@ -2,33 +2,25 @@
     var displayString = Formatting.getTeacherDisplayString(Model);
     ViewData["Title"] = displayString;
     Func<Teacher, bool> isUserAuthorized = (f) => Context.User.FindFirstValue(ClaimTypes.Role) == "Admin";
-    string getBase64ImageSrc()
-    {
-        if (Model?.Photo == null)
-        {
-            return null;
-        }
-        return $"data:image/jpeg;base64,{Convert.ToBase64String(Model.Photo)}";
-    }
 }
 @model Teacher
 
 <div class="page-content-center page-content-display">
-    <div>
-        <img src="@getBase64ImageSrc()" />
+    <div class="teacher-avatar">
+        <img src="@Formatting.getAvatarImageSrc(Model?.Photo)" />
     </div>
-    <div>
+    <div class="teacher-info">
         <h1>@ViewData["Title"]</h1>
-        <div>Пол:</div>
+        <label>Пол:</label>
         <div>@Model.Sex</div>
-        <div>Дата рождения:</div>
+        <label>Дата рождения:</label>
         <div>@Model.Birthday?.ToString("dd.MM.yyyy")</div>
-        <div>Примечание:</div>
+        <label>Примечание:</label>
         <div>@Model.Notes</div>
     </div>
-    <div>
+    <div class="teacher-buttons">
         <a asp-action="EditTeacher" asp-route-id=@Model.TeacherID><input disabled="@(!isUserAuthorized(Model))" type="button" value="Изменить" /></a>
-        <br />
         <a asp-action="RemoveTeacher" onclick="ActionConfirmation('Удалить преподавателя: @Model.LastName?')" asp-route-id=@Model.TeacherID><input disabled="@(!isUserAuthorized(Model))" type="button" class="input-delete" value="Удалить" /></a>
+        <input type="button" value="Назад" onclick="history.back()" />
     </div>
 </div>

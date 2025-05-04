@@ -56,7 +56,13 @@ namespace SubjectTeacherAppointmentMVC.Controllers {
 		public async Task<IActionResult> Subjects() {
 			var subjects = db.Subjects
 				.OrderBy((s => s.Name))
-				.ThenBy(s => s.CreationDate);
+				.ThenBy(s => s.CreationDate)
+				.ToList();
+			foreach (var subject in subjects) {
+				subject.HoursPerWeekTotal = db.SubjectTeachers
+					.Where(t => t.SubjectID == subject.SubjectID)
+					.Sum(t => t.HoursPerWeek);
+			}
 			return View(subjects);
 		}
 
@@ -152,10 +158,6 @@ namespace SubjectTeacherAppointmentMVC.Controllers {
 		/// <returns></returns>
 		public async Task<IActionResult> Teacher(Guid ID) {
 			var teacher = await db.Teachers.FirstOrDefaultAsync(f => f.TeacherID == ID);
-			if (!isUserAuthorized()) {
-				return RedirectToAction("AccessDenied", "Authorization", new { resourceName = teacher?.LastName });
-			}
-
 
 			return View("Teacher", teacher);
 		}
@@ -204,7 +206,7 @@ namespace SubjectTeacherAppointmentMVC.Controllers {
 			}
 			db.SaveChanges();
 
-			return RedirectToAction("Teachers");
+			return RedirectToAction("Teacher", new { ID = teacher.TeacherID });
 		}
 
 		/// <summary>
@@ -254,9 +256,6 @@ namespace SubjectTeacherAppointmentMVC.Controllers {
 		public async Task<IActionResult> SubjectTeachers(Guid ID) {
 			var subject = db.Subjects.FirstOrDefault(s => s.SubjectID == ID);
 			var subjectTeachers = db.SubjectTeachers.Where(f => f.SubjectID == ID).ToList();
-			if (!isUserAuthorized()) {
-				return RedirectToAction("AccessDenied", "Authorization", new { resourceName = subject?.Name });
-			}
 
 			foreach(var subjectTeacher in subjectTeachers) {
 				subjectTeacher.Teacher = db.Teachers.FirstOrDefault(t => t.TeacherID == subjectTeacher.TeacherID);

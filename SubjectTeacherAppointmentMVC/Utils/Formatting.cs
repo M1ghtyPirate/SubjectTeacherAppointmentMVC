@@ -10,5 +10,12 @@ namespace SubjectTeacherAppointmentMVC.Utils {
 		public static Func<double?, string, string> toFixedPercent = (v, p) => v == null || v == 0 ? "" : $"{v.Value.ToString(p)} %";
 		public static Func<double?, string> toDefaultCulture = (v) => v == null || v == 0 ? "" : v.Value.ToString(NFI);
 		public static string getTeacherDisplayString(Teacher teacher) => $"{teacher.LastName} {teacher.Name}{(string.IsNullOrEmpty(teacher.Surname) ? "" : $" {teacher.Surname}")}";
+
+		public static string getAvatarImageSrc(byte[] data) {
+			if (data == null) {
+				return "/img/avatar_placeholder.png";
+			}
+			return $"data:image/jpeg;base64,{Convert.ToBase64String(data)}";
+		}
 	}
 }

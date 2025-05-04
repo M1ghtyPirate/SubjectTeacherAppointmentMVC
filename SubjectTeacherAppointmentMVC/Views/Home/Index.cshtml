@@ -4,7 +4,7 @@
 }
 <div class="page-content-center page-content-display">
     <h1>@ViewData["Title"]</h1>
-    <div class="forestry-items">
+    <div class="subject-items">
         <a asp-action="Subjects">Список предметов</a>
         <a asp-action="Teachers">Преподаватели</a>
         <a hidden="@(Context.User.FindFirstValue(ClaimTypes.Role) != "Admin")" asp-action="Users">Список пользователей</a>

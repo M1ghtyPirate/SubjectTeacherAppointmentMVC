@@ -249,6 +249,9 @@ input.input-delete {
 
 footer {
     background-color: white;
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
 }
 
 .page-content-display {
@@ -264,13 +267,13 @@ td input {
     min-width: 3.5em !important;
 }
 
-.forestry-items {
+.subject-items {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-    .forestry-items a {
+    .subject-items a {
         color: black;
         border-radius: 3px;
         background-color: rgb(240, 255, 240);
@@ -279,7 +282,7 @@ td input {
         transition: background-color 0.5s;
     }
 
-        .forestry-items a:hover {
+        .subject-items a:hover {
             background-color: rgb(220, 255, 220);
         }
 
@@ -297,4 +300,27 @@ td input {
 
 .table-item-outlined {
     outline: 4px rgb(0, 195, 100) solid;
+}
+
+
+.teacher-avatar {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5px;
+    max-width: 300px;
+    max-height: 300px;
+}
+
+.teacher-avatar * {
+    height: 100%;
+    width: 100%;
+}
+
+
+.teacher-info label {
+    font-weight: bolder;
+}
+
+.teacher-info select {
+    width: 100%;
 }

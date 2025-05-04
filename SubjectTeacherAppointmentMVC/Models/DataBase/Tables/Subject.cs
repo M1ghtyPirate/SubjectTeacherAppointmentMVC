@@ -7,5 +7,7 @@ namespace SubjectTeacherAppointmentMVC.Models.DataBase.Tables {
 		public string? Name { get; set; }
 		[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 		public DateTime? CreationDate { get; set; }
+		[NotMapped]
+		public int? HoursPerWeekTotal { get; set; }
 	}
 }

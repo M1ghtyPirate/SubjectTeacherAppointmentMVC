@@ -2,16 +2,6 @@
 DROP TABLE [Teacher]
 DROP TABLE [SubjectTeachers]
 
-
-DECLARE @SubjectID UNIQUEIDENTIFIER
-EXEC [dbo].[sp_Subject] N'TEST_SUBJECT', @ForestryID OUT
-SELECT @SubjectID
-
-
-DECLARE @SubjectID UNIQUEIDENTIFIER
-EXEC [dbo].[sp_Subject] N'TEST_SUBJECT', @ForestryID OUT
-SELECT @SubjectID
-
 SELECT *
 FROM Users
 
