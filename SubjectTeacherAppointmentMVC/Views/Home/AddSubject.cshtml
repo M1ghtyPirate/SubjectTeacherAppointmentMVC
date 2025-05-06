@@ -8,7 +8,7 @@
         <div>
             <input type="text" asp-for="SubjectID" value="@Model?.SubjectID" hidden ="True"/>
             <label asp-for="Name">Имя</label>
-            <input type="text" asp-for="Name" required value="@Model?.Name" />
+            <input type="text" asp-for="Name" required maxlength="256" value="@Model?.Name" />
         </div>
         <div>
             <input type="submit" value="@(Model == null ? "Добавить" : "Внести изменения")" />

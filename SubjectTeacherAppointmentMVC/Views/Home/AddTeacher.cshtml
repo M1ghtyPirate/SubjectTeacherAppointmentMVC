@@ -14,11 +14,11 @@
             <input type="file" accept=".jpg, .jpeg, .png, .bmp|image/*" asp-for="PhotoFormFile" onchange="selectPhoto_Change(event)" value="@Model?.PhotoFormFile" />
             <input type="text" asp-for="TeacherID" value="@Model?.TeacherID" hidden ="True"/>
             <label asp-for="LastName">Фамилия</label>
-            <input type="text" asp-for="LastName" required value="@Model?.LastName" />
+            <input type="text" asp-for="LastName" required maxlength="256" value="@Model?.LastName" />
             <label asp-for="Name">Имя</label>
-            <input type="text" asp-for="Name" required value="@Model?.Name" />
+            <input type="text" asp-for="Name" required maxlength="256" value="@Model?.Name" />
             <label asp-for="Surname">Отчество</label>
-            <input type="text" asp-for="Surname" value="@Model?.Surname" />
+            <input type="text" asp-for="Surname" maxlength="256" value="@Model?.Surname" />
             <label asp-for="Birthday">Дата рождения</label>
             <input type="date" asp-for="Birthday" value="@Model?.Birthday?.ToString("yyyy-MM-dd")" />
             <label asp-for="Sex">Пол</label>
@@ -26,7 +26,7 @@
             <select required name="Sex">
                 <option disabled selected="@(Model?.Sex == null)">--Выберете пол--</option>
                 <option value="@FemaleStr" selected="@(Model?.Sex == FemaleStr)">@FemaleStr</option>
-                <option value="@MaleStr" selected="@(Model?.Sex == FemaleStr)">@MaleStr</option>
+                <option value="@MaleStr" selected="@(Model?.Sex == MaleStr)">@MaleStr</option>
             </select>
             <br/>
             <label asp-for="Notes">Примечание</label>

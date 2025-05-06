@@ -8,7 +8,7 @@
     <form asp-action="register" asp-controller="authorization" onsubmit="return comparePasswords()">
         <div>
             <label asp-for="Login">Логин*</label>
-            <input id="Login" type="text" asp-for="Login" required value="@Model?.Login" onblur="trimLogin()"/>
+            <input id="Login" type="text" asp-for="Login" required maxlength="256" value="@Model?.Login" onblur="trimLogin()" />
             <div class="warning" hidden="@(!(Model != null && Model.Login == null))">Логин занят.</div>
             <label asp-for="Password">Пароль*</label>
             <input id="Password" type="password" asp-for="Password" required minlength="6" value="@Model?.Password" />

@@ -26,7 +26,7 @@
                     </select>
                 </td>
                 <td>
-                    <input type="number" name="SubjectTeacher[@(subjectTeachersCount++)].HoursPerWeek" step="1" min="1" max="40" pattern="\d*" value="@Formatting.toFixed(subjectTeacher?.HoursPerWeek, p0)" />
+                    <input type="number" name="SubjectTeacher[@(subjectTeachersCount++)].HoursPerWeek" step="1" min="1" max="40" value="@Formatting.toFixed(subjectTeacher?.HoursPerWeek, p0)" />
                 </td>
                 <td>
                     <input disabled="@(!isUserAuthorized())" type="button" class="input-delete" onclick="deleteSubjectTeacher_Click(event)" value="Удалить" />
