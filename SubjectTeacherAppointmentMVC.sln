@@ -9,7 +9,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubjectTeacherAppointmentDB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{5639C44B-6995-479D-99DA-0333508E84C9}"
 	ProjectSection(SolutionItems) = preProject
+		compose.bat = compose.bat
 		Docker-compose.yml = Docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DockerImages", "DockerImages", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		DockerImages\deploy.bat = DockerImages\deploy.bat
+		DockerImages\Docker-compose.yml = DockerImages\Docker-compose.yml
+		DockerImages\save.bat = DockerImages\save.bat
+		DockerImages\subjectteacherappointmentmvc-db.tar = DockerImages\subjectteacherappointmentmvc-db.tar
+		DockerImages\subjectteacherappointmentmvc-web.tar = DockerImages\subjectteacherappointmentmvc-web.tar
 	EndProjectSection
 EndProject
 Global
@@ -29,5 +39,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {5639C44B-6995-479D-99DA-0333508E84C9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C4C975E8-2E53-4D3F-8A61-1F570441FC5D}
 	EndGlobalSection
 EndGlobal
